@@ -1,0 +1,40 @@
+---
+title: "A.Sauk_Biol612_Homework3"
+author: "Alexandra Sauk"
+date: '2020-01-27'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Part 1 - ANOVAs
+
+##Killarney Lake Data
+
+```{r}
+library("ggplot2")
+
+Kdata<-read.csv("Killarney.csv")
+
+Lake<-Kdata$Lake
+Diversity<-Kdata$Species.Diversity
+Status<-Kdata$status
+
+par(mar=c(8.5,6.5,4.1,3.1), mgp=c(3,1,0))
+ggplot(Kdata, aes(x=Status, y=Diversity, color=Status)) + geom_boxplot() + labs(y="Plankton Species Diversity", x="Lake Status", title = "Fig. 1: Plankton species diversity for 45 lakes in Killarney Wilderness Park") + scale_color_manual(values = c("#ffbb0e", "#009a00", "#007fff"))
+```
+
+From the boxplot, it does look like there are differences in plankton diversity between the three lake types, with acid lakes have the least diversity and the neutral, never acid damaged lakes have the greatest diversity. The recovered lakes appear to increases in diversity nearing the levels of diversity seen in the neutral lakes. 
+
+```{r}
+k.fit=aov(Diversity~Status, data = Kdata)
+summary(k.fit)
+```
+
+The null hypothesis is that there is not difference in the variance of species diversity between the three lake types.
+
+The observed test statistic is F value of 16.41 and the p value is p=5.43e-06. 
+
+
