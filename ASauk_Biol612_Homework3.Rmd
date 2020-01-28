@@ -20,7 +20,7 @@ library("ggplot2")
 Kdata<-read.csv("Killarney.csv")
 
 Lake<-Kdata$Lake
-Diversity<-Kdata$Species.Diversity
+Diversity<-Kdata$Diversity
 Status<-Kdata$status
 
 par(mar=c(8.5,6.5,4.1,3.1), mgp=c(3,1,0))
@@ -51,14 +51,18 @@ Based on the Tukey HSD test, the species diversity is significantly different be
 shapiro.test(k.fit$residuals)
 ```
 
-Since p=0.01415, we reject the null hypothesis that the residuals are normally distributed. Thus the data do not meet the assumption of normality required for the ANOVA.
+Since p=0.01415, we reject the null hypothesis that the residuals are normally distributed. Thus, the data do not meet the assumption of normality required for the ANOVA.
 
 ##Levene's test
 ```{r}
-#install.packages("car")
-#library("car)
-#leveneTest(Diversity, Status)
+
+library("car")
+str(Kdata)
+leveneTest(Diversity, Status)
+
 ```
+
+Since p=0.3773, we do not reject the null hypothesis that the variances in each groups is the same. Thus, the data meets the assumption that the variances in each group is the same. 
 
 ##Esophagael Cancer data
 
@@ -88,7 +92,7 @@ summary(e.fit2)
 TukeyHSD(e.fit2)
 ```
 
-Based on the results of this two factor ANOVA, tobacco use has a signficant affect on incidences of esophageal cancer as p=0.0228 and age has a signficant affect on incidences of esophageal cancer as p=6.23e-09. There is no significant between age and tobacco use. 
+Based on the results of this two factor ANOVA, tobacco use has a signficant affect on incidences of esophageal cancer as p=0.0228 and age has a signficant affect on incidences of esophageal cancer as p=6.23e-09. There is no significant interaction between age and tobacco use. 
 
 #Two factor ANOVA - alcohol and age
 ```{r}
