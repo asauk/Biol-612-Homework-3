@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ##Killarney Lake Data
 
+##Boxplot
 ```{r}
 library("ggplot2")
 
@@ -28,6 +29,7 @@ ggplot(Kdata, aes(x=Status, y=Diversity, color=Status)) + geom_boxplot() + labs(
 
 From the boxplot, it does look like there are differences in plankton diversity between the three lake types, with acid lakes have the least diversity and the neutral, never acid damaged lakes have the greatest diversity. The recovered lakes appear to increases in diversity nearing the levels of diversity seen in the neutral lakes. 
 
+##ANOVA
 ```{r}
 k.fit=aov(Diversity~Status, data = Kdata)
 summary(k.fit)
@@ -36,5 +38,24 @@ summary(k.fit)
 The null hypothesis is that there is not difference in the variance of species diversity between the three lake types.
 
 The observed test statistic is F value of 16.41 and the p value is p=5.43e-06. 
+
+##Tukey HSD
+```{r}
+TukeyHSD(aov(Diversity~Status, data = Kdata))
+```
+
+Based on the Tukey HSD test, the species diversity is significantly different between the acid lakes and the recovered lakes as well as the acid lakes and the neutral lakes. The neutral and recovered lakes do not differ significantly in terms of their species diversity. 
+
+##Shapiro-Wilk's test
+```{r}
+shapiro.test(k.fit$residuals)
+```
+
+Since p=0.01415, we reject the null hypothesis that the residuals are normally distributed. Thus the data do not meet the assumption of normality required for the ANOVA.
+
+##Levene's test
+```{r}
+
+```
 
 
