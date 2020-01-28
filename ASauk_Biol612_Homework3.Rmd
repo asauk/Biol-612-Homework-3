@@ -100,7 +100,124 @@ e.fit3<-aov(ncases~Alcohol*Age)
 
 summary(e.fit3)
 
-interaction.plot(Alcohol, Age, ncases, legend = T)
+interaction.plot(Alcohol, Age, ncases, legend = T, col=c("#808000","#008000","#008080","#000080","#0000FF","#800080")) + title(main = "Fig. 2: Interaction of alcohol consumption and age \n on number of esophageal cancer cases")
 ```
 
-Based on the results of this two factor ANOVA, alcohol consumption has a signficant affect on incidences of esophageal cancer as p=0.00892 and age has a signficant affect on incidences of esophageal cancer as p=2.02e-09. There is also a significant interaction between age and alcohol asumption with a p=0.03633.
+Based on the results of this two factor ANOVA, alcohol consumption has a signficant affect on incidences of esophageal cancer as p=0.00892 and age has a signficant affect on incidences of esophageal cancer as p=2.02e-09. There is also a significant interaction between age and alcohol asumption with a p=0.03633. ALcohol consumption appears to interact the most with the three ages groups between 45 and 74 years of age. 
+
+#Part 2 - Regression and Correlation
+
+##Question 13
+
+```{r}
+mtcars
+library("ggplot2")
+ggplot(mtcars, aes(x=mtcars$wt, y=mtcars$mpg)) + geom_point(shape = 2, color=("dark green")) + labs(x="Weight (tonnes)", y="Fuel mileage (mpg)", title = "Fig. 3: Fuel milaege of cars versus weight") 
+
+
+
+```
+
+##Linear regression
+```{r}
+car.fit<-glm(mpg~wt, data=mtcars)
+summary.lm(car.fit)
+```
+##Add regression line
+```{r}
+ggplot(mtcars, aes(x=mtcars$wt, y=mtcars$mpg)) + geom_point(shape = 2, color=("dark green")) + labs(x="Weight (tonnes)", y="Fuel mileage (mpg)", title = "Fig. 4: Fuel milaege of cars versus weight") + geom_abline(intercept = 37.2851, slope = -5.2445, color="blue")
+
+
+```
+
+## Line equation
+
+y = 37.2851 - 5.2445x
+
+##Significance
+
+There is a significant negative correlation between the fuel mileage and the weight of cars with p=1.294e-10. 
+
+##Question 14
+
+```{r}
+mtcars
+library("ggplot2")
+ggplot(mtcars, aes(x=mtcars$hp, y=mtcars$qsec)) + geom_point(shape = 5, color=("#A2C93A"), size=2) + labs(x="Horsepower", y="Quarter mile time", title = "Fig. 5: Horsepower of cars versus quarter mile time") 
+
+
+
+```
+
+##Linear regression
+```{r}
+car.fit2<-glm(qsec~hp, data=mtcars)
+summary.lm(car.fit2)
+```
+
+##Add regression line
+```{r}
+ggplot(mtcars, aes(x=mtcars$hp, y=mtcars$qsec)) + geom_point(shape = 5, color=("#A2C93A"), size=2) + labs(x="Horsepower", y="Quarter mile time", title = "Fig. 6: Horsepower of cars versus quarter mile time")  + geom_abline(intercept = 20.5564, slope = -0.0185, color="blue")
+
+```
+
+
+## Line equation
+
+y = 20.5564 - 0.0185x
+
+##Quater mile time for a 300 hp car
+
+```{r}
+hp<-300
+qt = 20.5564 - 0.0185*hp
+qt
+
+```
+
+The estimated quater mile time for a car with 300 horsepower is 15.00 seconds. 
+
+##Significance
+
+There is a significant negative correlation between the quarter mile time and the horsepower of cars with p=5.766e-06. 
+
+```{r}
+library("gvlma")
+
+gvlma(qsec~hp, data=mtcars)
+```
+
+```{r}
+hist(car.fit2$residuals)
+```
+
+```{r}
+plot(fitted(car.fit2),resid(car.fit2))
+abline(0,0)
+```
+
+
+The Kurtosis assumption is not satisfied for this data and based on the histogram of the residuals, this may be due to the data not being sufficiently normally distributed. 
+
+##Question 15
+
+The bacteria_genetics.csv includes genome size and gene number for a number of bacteria in the phylum Tenericutes and the order Erysipelotrichales (phylum Firmicutes) from my M.Sc. thesis work. 
+
+```{r}
+bac<-read.csv("bacteria_genetics.csv")
+Lifestyle<-bac$Lifestyle
+library("ggplot2")
+ggplot(bac, aes(x=bac$Gene_Count , y=bac$Genome_Size, color=Lifestyle)) + geom_point(shape = 1, size=2) + labs(x="Number of genes", y="Genome Size (Mb)", title = "Fig. 7: Genome size versus gene number \nfor members of the Tenericutes and Erysipelotrichales") + scale_color_manual(values = c("#A2C257","#A4D3EE","#A2627A","#A68064"))
+
+
+```
+
+```{r}
+summary(lm(bac$Genome_Size~bac$Gene_Count))
+r=sqrt(0.9471)
+r
+
+```
+
+The correlation coefficient is r=0.973. Since p< 2e-16 for the slope, the correlation between genome size and gene number is significant. 
+
