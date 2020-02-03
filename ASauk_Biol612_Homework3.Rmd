@@ -11,9 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #Part 1 - ANOVAs
 
-##Killarney Lake Data
+## Killarney Lake Data
 
-##Boxplot
+## Question 1 & 2
 ```{r}
 library("ggplot2")
 
@@ -29,31 +29,37 @@ ggplot(Kdata, aes(x=Status, y=Diversity, color=Status)) + geom_boxplot() + labs(
 
 From the boxplot, it does look like there are differences in plankton diversity between the three lake types, with acid lakes have the least diversity and the neutral, never acid damaged lakes have the greatest diversity. The recovered lakes appear to increases in diversity nearing the levels of diversity seen in the neutral lakes. 
 
-##ANOVA
+## Question 3
 ```{r}
 k.fit=aov(Diversity~Status, data = Kdata)
 summary(k.fit)
 ```
-
+## Question 4
 The null hypothesis is that there is no difference in the variance of species diversity between the three lake types.
 
-The observed test statistic is F value of 16.41 and the p value is p=5.43e-06. There is a significant difference in species richness amoung the three lake types. 
+## Question 5
+The observed test statistic is F value of 16.41 and the p value is p=5.43e-06. 
 
-##Tukey HSD
+## Question 6
+There is a significant difference in species richness amoung the three lake types. 
+
+## Question 7
 ```{r}
 TukeyHSD(aov(Diversity~Status, data = Kdata))
 ```
 
+## Question 8
 Based on the Tukey HSD test, the species diversity is significantly different between the acid lakes and the recovered lakes as well as the acid lakes and the neutral lakes. The neutral and recovered lakes do not differ significantly in terms of their species diversity. 
 
-##Shapiro-Wilk's test
+## Question 9
+## Shapiro-Wilk's test
 ```{r}
 shapiro.test(k.fit$residuals)
 ```
 
 Since p=0.01415, we reject the null hypothesis that the residuals are normally distributed. Thus, the data do not meet the assumption of normality required for the ANOVA.
 
-##Levene's test
+## Levene's test
 ```{r}
 
 library("car")
@@ -64,9 +70,10 @@ leveneTest(Diversity, Status)
 
 Since p=0.3773, we do not reject the null hypothesis that the variances in each groups is the same. Thus, the data meets the assumption that the variances in each group is the same. 
 
-##Esophagael Cancer data
+## Esophagael Cancer data
 
-##Two factor ANOVA - tobacco and alcohol
+## Question 10
+## Two factor ANOVA - tobacco and alcohol
 ```{r}
 Edata<-read.csv("esoph.csv")
 
@@ -83,7 +90,8 @@ summary(e.fit1)
 
 Based on the results of the two factor ANOVA, neither alcohol consumption or tobacco use on their own or together, signficantly affect on incidences of esophageal cancer as all of the p values are above 0.05.
 
-##Two factor ANOVA - tobacco and age
+## Question 11
+## Two factor ANOVA - tobacco and age
 ```{r}
 e.fit2<-aov(ncases~Tobacco*Age)
 
@@ -104,7 +112,8 @@ Age groups     p-value
 75+-55-64    0.0001115
 75+-65-74    0.0145751
 
-#Two factor ANOVA - alcohol and age
+## Question 12
+## Two factor ANOVA - alcohol and age
 ```{r}
 e.fit3<-aov(ncases~Alcohol*Age)
 
@@ -123,7 +132,7 @@ Based on the results of this two factor ANOVA, alcohol consumption has a signfic
 
 #Part 2 - Regression and Correlation
 
-##Question 13
+## Question 13
 
 ```{r}
 mtcars
@@ -136,27 +145,27 @@ ggplot(mtcars, aes(x=mtcars$wt, y=mtcars$mpg)) + geom_point(shape = 2, color=("d
 
 Fuel mileage does appear to depend on vehicle weight as there is a negative trend in fuel mileage as weight increases.
 
-##Linear regression
+## Linear regression
 ```{r}
 car.fit<-glm(mpg~wt, data=mtcars)
 summary.lm(car.fit)
 ```
-##Add regression line
+## Add regression line
 ```{r}
 ggplot(mtcars, aes(x=mtcars$wt, y=mtcars$mpg)) + geom_point(shape = 2, color=("dark green")) + labs(x="Weight (tonnes)", y="Fuel mileage (mpg)", title = "Fig. 4: Fuel milaege of cars versus weight") + geom_abline(intercept = 37.2851, slope = -5.2445, color="blue")
 
 
 ```
 
-## Line equation
+##  Line equation
 
 y = 37.2851 - 5.2445x
 
-##Significance
+##  Significance
 
 There is a significant negative correlation between the fuel mileage and the weight of cars with p=1.294e-10. 
 
-##Question 14
+##  Question 14
 
 ```{r}
 mtcars
@@ -169,24 +178,24 @@ ggplot(mtcars, aes(x=mtcars$hp, y=mtcars$qsec)) + geom_point(shape = 5, color=("
 
 Quarter mile time does appear to depend on horsepower as there is a negative trend in quartner mile time as horsepower increases.
 
-##Linear regression
+## Linear regression
 ```{r}
 car.fit2<-glm(qsec~hp, data=mtcars)
 summary.lm(car.fit2)
 ```
 
-##Add regression line
+## Add regression line
 ```{r}
 ggplot(mtcars, aes(x=mtcars$hp, y=mtcars$qsec)) + geom_point(shape = 5, color=("#A2C93A"), size=2) + labs(x="Horsepower", y="Quarter mile time", title = "Fig. 6: Horsepower of cars versus quarter mile time")  + geom_abline(intercept = 20.5564, slope = -0.0185, color="blue")
 
 ```
 
 
-## Line equation
+##  Line equation
 
 y = 20.5564 - 0.0185x
 
-##Quater mile time for a 300 hp car
+## Quater mile time for a 300 hp car
 
 ```{r}
 hp<-300
@@ -197,7 +206,7 @@ qt
 
 The estimated quater mile time for a car with 300 horsepower is 15.01 seconds. 
 
-##Significance
+## Significance
 
 There is a significant negative correlation between the quarter mile time and the horsepower of cars with p=5.766e-06. 
 
@@ -219,7 +228,7 @@ abline(0,0)
 
 The Kurtosis assumption is not satisfied for this data and based on the histogram of the residuals, this may be due to the data not being sufficiently normally distributed. 
 
-##Question 15
+## Question 15
 
 The bacteria_genetics.csv includes genome size and gene number for a number of bacteria in the phylum Tenericutes and the order Erysipelotrichales (phylum Firmicutes) from my M.Sc. thesis work. 
 
