@@ -125,9 +125,6 @@ summary(e.fit3)
 interaction.plot(Alcohol, Age, ncases, legend = T, col=c("#808000","#008000","#008080","#000080","#0000FF","#800080")) + title(main = "Fig. 2: Interaction of alcohol consumption and age \n on number of esophageal cancer cases")
 ```
 
-
-
-
 Based on the results of this two factor ANOVA, alcohol consumption has a signficant affect on incidences of esophageal cancer as p=0.00892 and age has a signficant affect on incidences of esophageal cancer as p=2.02e-09. There is also a significant interaction between age and alcohol asumption with a p=0.03633. ALcohol consumption appears to interact the most with the three ages groups between 45 and 74 years of age. 
 
 #Part 2 - Regression and Correlation
