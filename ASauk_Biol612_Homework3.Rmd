@@ -35,9 +35,9 @@ k.fit=aov(Diversity~Status, data = Kdata)
 summary(k.fit)
 ```
 
-The null hypothesis is that there is not difference in the variance of species diversity between the three lake types.
+The null hypothesis is that there is no difference in the variance of species diversity between the three lake types.
 
-The observed test statistic is F value of 16.41 and the p value is p=5.43e-06. 
+The observed test statistic is F value of 16.41 and the p value is p=5.43e-06. There is a significant difference in species richness amoung the three lake types. 
 
 ##Tukey HSD
 ```{r}
@@ -66,7 +66,7 @@ Since p=0.3773, we do not reject the null hypothesis that the variances in each 
 
 ##Esophagael Cancer data
 
-#Two factor ANOVA - tobacco and alcohol
+##Two factor ANOVA - tobacco and alcohol
 ```{r}
 Edata<-read.csv("esoph.csv")
 
@@ -83,7 +83,7 @@ summary(e.fit1)
 
 Based on the results of the two factor ANOVA, neither alcohol consumption or tobacco use on their own or together, signficantly affect on incidences of esophageal cancer as all of the p values are above 0.05.
 
-#Two factor ANOVA - tobacco and age
+##Two factor ANOVA - tobacco and age
 ```{r}
 e.fit2<-aov(ncases~Tobacco*Age)
 
@@ -92,7 +92,17 @@ summary(e.fit2)
 TukeyHSD(e.fit2)
 ```
 
-Based on the results of this two factor ANOVA, tobacco use has a signficant affect on incidences of esophageal cancer as p=0.0228 and age has a signficant affect on incidences of esophageal cancer as p=6.23e-09. There is no significant interaction between age and tobacco use. 
+Based on the results of this two factor ANOVA, tobacco use has a signficant affect on incidences of esophageal cancer as p=0.0228 but based on the Tukey test, the effect of tobacco use is only significant when comparing cancer rates between the 0-9g and 30+g per day users (p=0.0348451). Age has a signficant affect overall on incidences of esophageal cancer as p=6.23e-09, with significant between group differences shown below. There is no significant interaction between age and tobacco use. 
+
+Age groups     p-value
+45-54-25-34   0.0028395
+55-64-25-34   0.0000002
+65-74-25-34   0.0001062
+45-54-35-44   0.0251086
+55-64-35-44   0.0000035
+65-74-35-44   0.0013005
+75+-55-64    0.0001115
+75+-65-74    0.0145751
 
 #Two factor ANOVA - alcohol and age
 ```{r}
@@ -100,8 +110,14 @@ e.fit3<-aov(ncases~Alcohol*Age)
 
 summary(e.fit3)
 
+
+```
+```{r}
 interaction.plot(Alcohol, Age, ncases, legend = T, col=c("#808000","#008000","#008080","#000080","#0000FF","#800080")) + title(main = "Fig. 2: Interaction of alcohol consumption and age \n on number of esophageal cancer cases")
 ```
+
+
+
 
 Based on the results of this two factor ANOVA, alcohol consumption has a signficant affect on incidences of esophageal cancer as p=0.00892 and age has a signficant affect on incidences of esophageal cancer as p=2.02e-09. There is also a significant interaction between age and alcohol asumption with a p=0.03633. ALcohol consumption appears to interact the most with the three ages groups between 45 and 74 years of age. 
 
@@ -117,6 +133,8 @@ ggplot(mtcars, aes(x=mtcars$wt, y=mtcars$mpg)) + geom_point(shape = 2, color=("d
 
 
 ```
+
+Fuel mileage does appear to depend on vehicle weight as there is a negative trend in fuel mileage as weight increases.
 
 ##Linear regression
 ```{r}
@@ -149,6 +167,8 @@ ggplot(mtcars, aes(x=mtcars$hp, y=mtcars$qsec)) + geom_point(shape = 5, color=("
 
 ```
 
+Quarter mile time does appear to depend on horsepower as there is a negative trend in quartner mile time as horsepower increases.
+
 ##Linear regression
 ```{r}
 car.fit2<-glm(qsec~hp, data=mtcars)
@@ -175,7 +195,7 @@ qt
 
 ```
 
-The estimated quater mile time for a car with 300 horsepower is 15.00 seconds. 
+The estimated quater mile time for a car with 300 horsepower is 15.01 seconds. 
 
 ##Significance
 
